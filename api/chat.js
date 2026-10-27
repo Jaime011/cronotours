@@ -28,7 +28,7 @@ SEGURO ANTI-PARADOJA
 - Plus, USD 240: cubre cruzarte con vos mismo y reposición de extremidades por fauna.
 - Premium, USD 990: garantiza que tus padres se conozcan igual y reinstala tu línea temporal.`;
 
-const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
 // Responde siempre en JSON usando solo funciones básicas de Node
 function send(res, status, obj) {
@@ -82,7 +82,9 @@ module.exports = async function handler(req, res) {
         model: MODEL,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
         temperature: 0.9,
-        max_tokens: 300,
+        // gpt-oss "piensa" antes de responder: poco razonamiento y margen de tokens
+        reasoning_effort: "low",
+        max_completion_tokens: 1200,
       }),
     });
 
