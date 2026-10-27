@@ -30,33 +30,48 @@ SEGURO ANTI-PARADOJA
 
 const MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
 
+// Responde siempre en JSON usando solo funciones básicas de Node
+function send(res, status, obj) {
+  res.statusCode = status;
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.end(JSON.stringify(obj));
+}
+
+// Lee el cuerpo del pedido, venga ya procesado por Vercel o no
+async function readBody(req) {
+  if (req.body && typeof req.body === "object") return req.body;
+  if (typeof req.body === "string") {
+    try { return JSON.parse(req.body); } catch { return {}; }
+  }
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  try { return JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}"); } catch { return {}; }
+}
+
 module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Este servicio solo acepta POST." });
-  }
-
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: "Falta configurar GROQ_API_KEY en las variables de entorno de Vercel." });
-  }
-
-  let body = req.body;
-  if (typeof body === "string") {
-    try { body = JSON.parse(body); } catch { body = {}; }
-  }
-
-  // Solo aceptamos mensajes válidos, recortados, y los últimos 10
-  const messages = (Array.isArray(body && body.messages) ? body.messages : [])
-    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim())
-    .slice(-10)
-    .map((m) => ({ role: m.role, content: m.content.slice(0, 600) }));
-
-  if (!messages.length || messages[messages.length - 1].role !== "user") {
-    return res.status(400).json({ error: "Escribí una consulta para Ramiro." });
-  }
-
   try {
+    if (req.method !== "POST") {
+      res.setHeader("Allow", "POST");
+      return send(res, 405, { error: "Este servicio solo acepta POST." });
+    }
+
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      return send(res, 500, { error: "Falta configurar GROQ_API_KEY en las variables de entorno de Vercel." });
+    }
+
+    const body = await readBody(req);
+
+    // Solo aceptamos mensajes válidos, recortados, y los últimos 10
+    const messages = (Array.isArray(body && body.messages) ? body.messages : [])
+      .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim())
+      .slice(-10)
+      .map((m) => ({ role: m.role, content: m.content.slice(0, 600) }));
+
+    if (!messages.length || messages[messages.length - 1].role !== "user") {
+      return send(res, 400, { error: "Escribí una consulta para Ramiro." });
+    }
+
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -65,3 +80,32 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify({
         model: MODEL,
+        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        temperature: 0.9,
+        max_tokens: 300,
+      }),
+    });
+
+    if (r.status === 429) {
+      return send(res, 429, { error: "Ramiro está atendiendo a otro cliente en el siglo XV. Probá de nuevo en un minuto." });
+    }
+    if (r.status === 401) {
+      return send(res, 500, { error: "La clave GROQ_API_KEY no es válida. Revisala en Vercel y hacé Redeploy." });
+    }
+    if (!r.ok) {
+      const detail = await r.text().catch(() => "");
+      console.error("Groq error", r.status, detail);
+      return send(res, 502, { error: "Ramiro tuvo un problema técnico con la cápsula (error " + r.status + "). Probá de nuevo." });
+    }
+
+    const data = await r.json();
+    const reply = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    if (!reply) {
+      return send(res, 502, { error: "Ramiro se quedó sin palabras. Probá reformular la pregunta." });
+    }
+    return send(res, 200, { reply: reply.trim() });
+  } catch (err) {
+    console.error(err);
+    return send(res, 500, { error: "No pudimos comunicarnos con Ramiro. Probá de nuevo en unos segundos." });
+  }
+};
