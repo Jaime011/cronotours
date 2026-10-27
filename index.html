@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cronotours | Agencia de viajes en el tiempo</title>
+  <meta name="description" content="Paquetes turísticos a cualquier época de la historia. Salidas diarias desde 2026. Seguro anti-paradoja incluido en planes Plus y Premium.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#inicio" aria-label="Cronotours, ir al inicio">
+    <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="3"/>
+      <path d="M20 9v11l-7 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M31 6l5 5-6 1z" fill="currentColor"/>
+    </svg>
+    <span>Cronotours</span>
+  </a>
+  <nav aria-label="Secciones">
+    <ul>
+      <li><a href="#paquetes">Paquetes</a></li>
+      <li><a href="#seguro">Seguro</a></li>
+      <li><a href="#clientes">Clientes</a></li>
+      <li><a href="#empresa">La empresa</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+  <!-- PORTADA -->
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <h1>Viajá a cualquier época.<br><span class="h1-alt">Volvé para la cena.</span></h1>
+          <p class="hero-sub">Paquetes turísticos a los momentos más importantes de la historia, con traslados, guía bilingüe (idioma actual + idioma de época) y regreso garantizado al minuto exacto en que saliste.</p>
+        </div>
+
+        <div class="board" aria-label="Tablero de próximas salidas">
+          <div class="board-head">
+            <span>Próximas salidas</span>
+            <span class="board-clock" id="boardClock">--:--</span>
+          </div>
+          <table class="board-table">
+            <thead>
+              <tr><th scope="col">Destino</th><th scope="col">Hora</th><th scope="col">Estado</th></tr>
+            </thead>
+            <tbody id="boardBody">
+              <tr><td data-flap="JURASICO" data-w="9"></td><td data-flap="09:15" data-w="5"></td><td data-flap="EMBARCANDO" data-w="10" data-status="ok"></td></tr>
+              <tr><td data-flap="ROMA" data-w="9"></td><td data-flap="10:40" data-w="5"></td><td data-flap="A HORARIO" data-w="10" data-status="ok"></td></tr>
+              <tr><td data-flap="EGIPTO" data-w="9"></td><td data-flap="11:05" data-w="5"></td><td data-flap="DEMORADO" data-w="10" data-status="warn"></td></tr>
+              <tr><td data-flap="MEDIEVO" data-w="9"></td><td data-flap="12:30" data-w="5"></td><td data-flap="CANCELADO" data-w="10" data-status="bad"></td></tr>
+              <tr><td data-flap="AÑO 3000" data-w="9"></td><td data-flap="13:50" data-w="5"></td><td data-flap="A HORARIO" data-w="10" data-status="ok"></td></tr>
+              <tr><td data-flap="BIG BANG" data-w="9"></td><td data-flap="15:00" data-w="5"></td><td data-flap="SOLO IDA" data-w="10" data-status="warn"></td></tr>
+            </tbody>
+          </table>
+          <p class="board-note">Medievo cancelado por peste. Próxima salida cuando se invente la penicilina.</p>
+        </div>
+      </div>
+
+      <form class="pass" id="buscador" aria-label="Consultar un viaje">
+        <div class="pass-main">
+          <p class="pass-title">Tarjeta de embarque temporal</p>
+          <div class="pass-fields">
+            <label class="field">
+              <span>Salís desde</span>
+              <input type="text" value="2026 d.C." readonly aria-readonly="true">
+            </label>
+            <label class="field field-wide">
+              <span>Querés llegar a</span>
+              <select name="destino" id="destino">
+                <option value="al Jurásico (65 millones de años a.C.)">Jurásico, 65 millones a.C.</option>
+                <option value="a Egipto durante la construcción de las pirámides (2560 a.C.)">Egipto, 2560 a.C.</option>
+                <option value="a la Roma Imperial (80 d.C.)">Roma Imperial, 80 d.C.</option>
+                <option value="a la Edad Media (1348)">Edad Media, 1348</option>
+                <option value="al año 3000">Año 3000</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Pasajeros</span>
+              <select name="pasajeros" id="pasajeros">
+                <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5 o más</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="pass-stub">
+          <p class="stub-code" aria-hidden="true">CRN<br>∞</p>
+          <button type="submit" class="btn btn-sun">Consultar con un asesor</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAQUETES -->
+  <section class="section" id="paquetes">
+    <div class="section-head">
+      <h2>Paquetes de temporada</h2>
+      <p>Todos incluyen ida y vuelta en cápsula, 3 comidas de época (o una barrita de cereal si la comida de época no es apta) y kit de vestimenta para pasar desapercibido.</p>
+    </div>
+
+    <div class="packages">
+      <article class="package era-jurasico">
+        <figure class="ph" data-label="Foto del paquete Jurásico">
+          <img src="img/paquete-jurasico.jpg" alt="Micro turístico en una selva prehistórica con dinosaurios de fondo" loading="lazy">
+        </figure>
+        <p class="package-year" aria-hidden="true">65M<small>a.C.</small></p>
+        <div class="package-body">
+          <h3>Jurásico All Inclusive</h3>
+          <p>Safari en micro blindado, avistaje de braquiosaurios al atardecer y noche en domo con vista al volcán.</p>
+          <ul class="package-meta">
+            <li>7 noches</li>
+            <li>Jaula anti T-Rex incluida</li>
+          </ul>
+          <div class="package-foot">
+            <p class="price"><span>desde</span> USD 4.990</p>
+            <button type="button" class="btn-ask" data-ask="Contame más sobre el paquete Jurásico All Inclusive. ¿Qué incluye y qué riesgos tiene?">Preguntarle a Ramiro</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="package era-roma">
+        <figure class="ph" data-label="Foto del paquete Roma">
+          <img src="img/paquete-roma.jpg" alt="El Coliseo romano en su época de esplendor con un palco VIP para turistas" loading="lazy">
+        </figure>
+        <p class="package-year" aria-hidden="true">80<small>d.C.</small></p>
+        <div class="package-body">
+          <h3>Roma Imperial VIP</h3>
+          <p>Palco en la inauguración del Coliseo, banquete de 14 platos y clase de cómo usar la toga sin que se te caiga.</p>
+          <ul class="package-meta">
+            <li>4 noches</li>
+            <li>No incluye pelear con leones</li>
+          </ul>
+          <div class="package-foot">
+            <p class="price"><span>desde</span> USD 3.200</p>
+            <button type="button" class="btn-ask" data-ask="Contame más sobre el paquete Roma Imperial VIP. ¿Qué incluye y qué riesgos tiene?">Preguntarle a Ramiro</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="package era-egipto">
+        <figure class="ph" data-label="Foto del paquete Egipto">
+          <img src="img/paquete-egipto.jpg" alt="Grupo de turistas con sombreros siguiendo a una guía frente a pirámides en construcción" loading="lazy">
+        </figure>
+        <p class="package-year" aria-hidden="true">2560<small>a.C.</small></p>
+        <div class="package-body">
+          <h3>Egipto: Obra en Construcción</h3>
+          <p>Visitá la Gran Pirámide antes de que esté terminada. Podés colocar un bloque y llevarte el certificado.</p>
+          <ul class="package-meta">
+            <li>5 noches</li>
+            <li>Casco obligatorio</li>
+          </ul>
+          <div class="package-foot">
+            <p class="price"><span>desde</span> USD 2.750</p>
+            <button type="button" class="btn-ask" data-ask="Contame más sobre el paquete Egipto, Obra en Construcción. ¿Qué incluye y qué riesgos tiene?">Preguntarle a Ramiro</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="package era-futuro">
+        <figure class="ph" data-label="Foto del paquete Año 3000">
+          <img src="img/paquete-futuro.jpg" alt="Ciudad futurista con autos voladores y un turista desorientado con un mapa de papel" loading="lazy">
+        </figure>
+        <p class="package-year" aria-hidden="true">3000<small>d.C.</small></p>
+        <div class="package-body">
+          <h3>Año 3000 Express</h3>
+          <p>Escapada de fin de semana al futuro. Averiguá quién gana el próximo mundial (no está permitido apostar al volver).</p>
+          <ul class="package-meta">
+            <li>2 noches</li>
+            <li>Adaptador de enchufe incluido</li>
+          </ul>
+          <div class="package-foot">
+            <p class="price"><span>desde</span> USD 5.400</p>
+            <button type="button" class="btn-ask" data-ask="Contame más sobre el paquete Año 3000 Express. ¿Qué incluye y qué riesgos tiene?">Preguntarle a Ramiro</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SEGURO -->
+  <section class="section section-ink" id="seguro">
+    <div class="section-head">
+      <h2>Seguro anti-paradoja</h2>
+      <p>Viajar al pasado tiene consecuencias. Nuestro seguro se encarga de que sigan existiendo vos, tu familia y, en lo posible, tu país.</p>
+    </div>
+
+    <div class="plans">
+      <div class="plan">
+        <h3>Básico</h3>
+        <p class="plan-price">USD 90 <span>por viaje</span></p>
+        <ul>
+          <li>Cubre pisar mariposas y otros insectos</li>
+          <li>Restauración de hasta 3 eventos históricos menores</li>
+          <li>Asistencia telefónica de lunes a viernes, en cualquier siglo</li>
+        </ul>
+      </div>
+      <div class="plan plan-featured">
+        <p class="plan-tag">El que más se vende</p>
+        <h3>Plus</h3>
+        <p class="plan-price">USD 240 <span>por viaje</span></p>
+        <ul>
+          <li>Todo lo del plan Básico</li>
+          <li>Cubre cruzarte con vos mismo en otra época</li>
+          <li>Reposición de extremidades por ataque de fauna</li>
+          <li>Traductor de urgencia para idiomas extintos</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>Premium</h3>
+        <p class="plan-price">USD 990 <span>por viaje</span></p>
+        <ul>
+          <li>Todo lo del plan Plus</li>
+          <li>Garantiza que tus padres se conozcan igual</li>
+          <li>Reinstalación de tu línea temporal en 24 horas</li>
+          <li>Abogado especializado en juicios medievales</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTES -->
+  <section class="section" id="clientes">
+    <div class="section-head">
+      <h2>Lo que dicen nuestros viajeros</h2>
+      <p>Fotos reales que nos mandaron nuestros clientes al volver. Algunas tienen poca calidad porque las cámaras del pasado eran malas, o porque no existían.</p>
+    </div>
+
+    <div class="book">
+      <figure class="polaroid" data-i="0">
+        <span class="stamp stamp-green" aria-hidden="true">Visado<b>Jurásico</b></span>
+        <div class="ph" data-label="Foto de cliente 1"><img src="img/book-1.jpg" alt="Turista sonriendo con un tiranosaurio detrás" loading="lazy"></div>
+        <figcaption>"El T-Rex parecía más chico de lejos. Después se acercó."<span>Marcos, Jurásico</span></figcaption>
+      </figure>
+      <figure class="polaroid" data-i="1">
+        <span class="stamp stamp-red" aria-hidden="true">Entrada<b>1348</b></span>
+        <div class="ph" data-label="Foto de cliente 2"><img src="img/book-2.jpg" alt="Familia de turistas tapándose la nariz en una aldea medieval" loading="lazy"></div>
+        <figcaption>"Hermoso todo. El olor, no tanto."<span>Familia Gutiérrez, Edad Media</span></figcaption>
+      </figure>
+      <figure class="polaroid" data-i="2">
+        <span class="stamp stamp-ochre" aria-hidden="true">Visado<b>Egipto</b></span>
+        <div class="ph" data-label="Foto de cliente 3"><img src="img/book-3.jpg" alt="Turista haciendo la pose de sostener la pirámide en construcción" loading="lazy"></div>
+        <figcaption>"Ayudé a construir la pirámide. Bueno, sostuve una parte."<span>Valeria, Egipto</span></figcaption>
+      </figure>
+      <figure class="polaroid" data-i="3">
+        <span class="stamp stamp-green" aria-hidden="true">Sellado<b>Prehistoria</b></span>
+        <div class="ph" data-label="Foto de cliente 4"><img src="img/book-4.jpg" alt="Pareja con remeras iguales posando junto a un cavernícola" loading="lazy"></div>
+        <figcaption>"Le enseñamos a hacer fuego. Ya sabía, pero fue muy amable."<span>Ana y Lucho, Prehistoria</span></figcaption>
+      </figure>
+      <figure class="polaroid" data-i="4">
+        <span class="stamp stamp-blue" aria-hidden="true">Aduana<b>Año 793</b></span>
+        <div class="ph" data-label="Foto de cliente 5"><img src="img/book-5.jpg" alt="Turista empapado sonriendo en un barco vikingo en plena tormenta" loading="lazy"></div>
+        <figcaption>"Pedí el paquete crucero. Esto no era un crucero."<span>Federico, Escandinavia</span></figcaption>
+      </figure>
+      <figure class="polaroid" data-i="5">
+        <span class="stamp stamp-red" aria-hidden="true">Visado<b>Roma</b></span>
+        <div class="ph" data-label="Foto de cliente 6"><img src="img/book-6.jpg" alt="Turista con toga comiendo un pancho frente a senadores romanos" loading="lazy"></div>
+        <figcaption>"Llevé panchos. Ahora hay una estatua mía en el Foro."<span>Gustavo, Roma Imperial</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- EMPRESA -->
+  <section class="section section-mint" id="empresa">
+    <div class="section-head">
+      <h2>La empresa</h2>
+      <p>Cronotours S.A. fue fundada en 2026 y, gracias a un error de calibración, también en 1887. Operamos con licencia de la Secretaría de Turismo de todas las épocas en las que existe una.</p>
+    </div>
+
+    <div class="mvv">
+      <div>
+        <h3>Misión</h3>
+        <p>Acercar la historia a cada persona, de forma segura, accesible y con el menor número posible de alteraciones al presente.</p>
+      </div>
+      <div>
+        <h3>Visión</h3>
+        <p>Ser la agencia de viajes en el tiempo líder del mercado en todos los siglos, incluidos los que todavía no ocurrieron.</p>
+      </div>
+      <div>
+        <h3>Valores</h3>
+        <ul>
+          <li>Puntualidad, en cualquier zona horaria y época</li>
+          <li>Respeto por las culturas locales, aunque nos tiren piedras</li>
+          <li>Responsabilidad con la línea temporal</li>
+          <li>Transparencia: siempre te decimos en qué año estás</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub-head">Organigrama</h3>
+    <div class="org" role="img" aria-label="Organigrama: el Directorio encabeza la empresa; debajo la Gerencia General, de la que dependen cinco áreas.">
+      <div class="org-level">
+        <div class="org-box org-top"><strong>Directorio</strong><span>Integrado por los fundadores de 2026 y de 1887</span></div>
+      </div>
+      <div class="org-level">
+        <div class="org-box org-mid"><strong>Gerencia General</strong><span>Dra. Clotilde Ferreyra</span></div>
+      </div>
+      <div class="org-level org-row">
+        <div class="org-box"><strong>Gerencia Comercial</strong><span>Ramiro, asesor senior de ventas</span></div>
+        <div class="org-box"><strong>Continuidad Temporal</strong><span>Vigila que nadie altere el presente</span></div>
+        <div class="org-box"><strong>Logística de Épocas</strong><span>Cápsulas, trajes y vacunas medievales</span></div>
+        <div class="org-box"><strong>Recursos Humanos</strong><span>Personal de 14 siglos distintos</span></div>
+        <div class="org-box"><strong>Atención de Reclamos</strong><span>Incluye clientes que aún no nacieron</span></div>
+      </div>
+    </div>
+
+    <h3 class="sub-head">Análisis FODA</h3>
+    <div class="foda">
+      <div class="foda-cell foda-f">
+        <h4>Fortalezas</h4>
+        <ul><li>Único proveedor del mercado</li><li>Podemos ver nuestros resultados futuros antes de decidir</li></ul>
+      </div>
+      <div class="foda-cell foda-o">
+        <h4>Oportunidades</h4>
+        <ul><li>Turismo de egresados al Renacimiento</li><li>Convenios con colegios para clases de historia en vivo</li></ul>
+      </div>
+      <div class="foda-cell foda-d">
+        <h4>Debilidades</h4>
+        <ul><li>Las reseñas negativas llegan antes que el viaje</li><li>Alto costo de reposición de extremidades</li></ul>
+      </div>
+      <div class="foda-cell foda-a">
+        <h4>Amenazas</h4>
+        <ul><li>Que un cliente evite la fundación de la empresa</li><li>Competencia que podría existir en el futuro</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS -->
+  <section class="section" id="preguntas">
+    <div class="section-head">
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>¿Puedo traer souvenirs?</summary>
+        <p>Sí, hasta 5 kilos por pasajero. No se permiten animales extintos, personas, ni objetos que después aparezcan en un museo con tu nombre.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa si pierdo la cápsula de regreso?</summary>
+        <p>Un guía de rescate llega a buscarte en el mismo minuto en que te diste cuenta. Para vos pasan segundos; para nosotros, una tarde de trámites.</p>
+      </details>
+      <details>
+        <summary>¿Necesito vacunas?</summary>
+        <p>Depende del destino. Para la Edad Media aplicamos un refuerzo completo antes de salir. Para el Jurásico, solo repelente industrial.</p>
+      </details>
+      <details>
+        <summary>¿Puedo visitarme a mí mismo de chico?</summary>
+        <p>Solo con el seguro Plus o Premium y a una distancia mínima de 50 metros. No te des consejos financieros, lo intentaron muchos y salió mal.</p>
+      </details>
+      <details>
+        <summary>¿Aceptan pagos en monedas antiguas?</summary>
+        <p>No. Aunque intentes pagar en denarios que conseguiste en el viaje anterior.</p>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div>
+    <p class="brand brand-foot">Cronotours S.A.</p>
+    <p>Salidas diarias desde 2026. Regresos garantizados a la misma fecha y hora de salida.</p>
+  </div>
+  <p class="legal">La empresa no se responsabiliza si al regresar su presente ya no existe, ni por cambios en el resultado de elecciones, partidos o recetas familiares. Precios sujetos a la inflación de la época de destino. Sitio ficticio realizado para la materia Organización Empresarial.</p>
+  <p class="footer-mark" aria-hidden="true">Cronotours</p>
+</footer>
+
+<!-- ASISTENTE -->
+<button class="chat-toggle" id="chatToggle" aria-expanded="false" aria-controls="chatPanel">
+  <span class="avatar"><img src="img/ramiro.jpg" alt=""><span class="avatar-fallback" aria-hidden="true">R</span></span>
+  <span>Consultá con Ramiro</span>
+</button>
+
+<section class="chat" id="chatPanel" hidden aria-label="Chat con Ramiro, asesor de viajes">
+  <header class="chat-head">
+    <span class="avatar"><img src="img/ramiro.jpg" alt=""><span class="avatar-fallback" aria-hidden="true">R</span></span>
+    <div>
+      <p class="chat-name">Ramiro</p>
+      <p class="chat-role">Asesor de viajes temporales</p>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Cerrar chat">✕</button>
+  </header>
+  <div class="chat-log" id="chatLog" aria-live="polite">
+    <div class="msg msg-bot">¡Hola! Soy Ramiro. Decime a qué época querés viajar y te cuento todo: qué llevar, qué riesgos hay y qué seguro te conviene.</div>
+  </div>
+  <div class="chat-suggest" id="chatSuggest">
+    <button type="button">¿Qué riesgos tiene el Jurásico?</button>
+    <button type="button">¿Qué llevo a la Edad Media?</button>
+    <button type="button">¿Me conviene el seguro Premium?</button>
+  </div>
+  <form class="chat-form" id="chatForm">
+    <label class="sr-only" for="chatInput">Tu mensaje</label>
+    <input id="chatInput" type="text" maxlength="500" autocomplete="off" placeholder="Escribí tu consulta">
+    <button type="submit" class="btn btn-sun">Enviar</button>
+  </form>
+</section>
+
+</body>
+</html>
